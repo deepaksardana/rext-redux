@@ -10,11 +10,10 @@ function* performRequestRextOperation(action: IRextAction): IterableIterator<{}>
   const {
     keys: { getBaseUrl, getToken },
   } = meta;
-  console.log(meta, payload);
   try {
     const token: string = (yield select(getToken))!;
     const requesturl: string = getFullUrl((yield select(getBaseUrl))!, url, payload.params);
-    let response: any = yield call(
+    const response: any = yield call(
       fetchRequest,
       requesturl,
       token,

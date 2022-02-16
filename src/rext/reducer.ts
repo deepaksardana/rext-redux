@@ -1,6 +1,6 @@
 import { IRextAction, RextResourcesReducer, IRextInfo, IRextKeys, IRextParams, ActionIdentity } from './interface';
 
-export const info =
+export const infoReducer =
   (identity: ActionIdentity, defaultRextInfo: IRextInfo) =>
   (info: IRextInfo = defaultRextInfo, action: IRextAction) => {
     const { type, payload } = action;
@@ -44,7 +44,7 @@ export const info =
         return info;
     }
   };
-export const items =
+export const itemsReducer =
   (identity: ActionIdentity) =>
   (items: {} = {}, action: IRextAction) => {
     const { type, payload, meta } = action;
@@ -73,7 +73,7 @@ function getData(previousData: any, newData: any, keys: IRextKeys, params: IRext
     return newData;
   }
 }
-export const resources =
+export const resourcesReducer =
   (identity: ActionIdentity) =>
   (resources: RextResourcesReducer = {}, action: IRextAction) => {
     const { type, payload } = action;

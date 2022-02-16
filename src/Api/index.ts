@@ -1,5 +1,5 @@
-import { forEach, replace, keys } from 'lodash';
-//TODO need to change method name as method support both Post and Put request
+import { forEach, replace, keys, constant } from 'lodash';
+// TODO need to change method name as method support both Post and Put request
 export function fetchRequest(
   url: string,
   token: string,
@@ -7,12 +7,12 @@ export function fetchRequest(
   body?: any,
   headers?: Headers,
 ): Promise<any> {
-  let requestHeaders: any = {
-    method: method,
+  const requestHeaders: any = {
+    method,
     headers: checkAndAppendHeaders(headers!, token, body),
   };
   if (body) {
-    requestHeaders['body'] = body instanceof FormData ? body : JSON.stringify(body);
+    requestHeaders.body = body instanceof FormData ? body : JSON.stringify(body);
   }
   return fetch(url, requestHeaders).then(handleResponse);
 }

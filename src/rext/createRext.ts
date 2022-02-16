@@ -1,5 +1,5 @@
 import { combineReducers, Reducer } from 'redux';
-import { info as infoReducer, items as itemsReducer, resources as resourcesReducer } from './reducer';
+import { infoReducer, itemsReducer, resourcesReducer } from './reducer';
 import { rextActionFunctions, resetUpdateAction, createIdentityAction } from './actions';
 import {
   IRextKeys,

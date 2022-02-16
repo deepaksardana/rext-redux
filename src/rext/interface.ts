@@ -30,9 +30,7 @@ export interface StandardAction extends Action {
 /**
  * An action creator is simply a function that produces an action.
  */
-export interface ActionCreator {
-  (...args: any[]): StandardAction;
-}
+export type ActionCreator = (...args: any[]) => StandardAction;
 
 export interface ActionIdentity {
   REXT_FETCH: RequestType;
