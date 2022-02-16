@@ -26,7 +26,104 @@ export function getToken (state: any): string {
 } 
 ```
 
-Create rext.ts where you will create the rext object
+Create rext.ts file where you will create the signleton rext object
+```
+export const test1 = createRext({
+    identity: "test1",
+    getBaseUrl: getBaseUrl,
+    getToken: getToken
+});
+
+export const test2 = createRext({
+    identity: "test2",
+    getBaseUrl: getBaseUrl,
+    getToken: getToken
+})
 ```
 
+Now go to root reducer and add rext object
+
+```
+import { test1, test2 } from "./rext";
+
+const rootReducer =  combineReducers({
+    ...,
+    test1State: test1.reducers,
+    test2State: test2.reducers,
+})
+
+export default rootReducer;
+```
+
+
+Now go to root saga and fork your events
+
+```
+import { test1, test2 } from "./rext";
+
+export default function* root(): SagaIterator {
+    yield all([
+        fork(test1.saga),
+        fork(test2.saga),
+    ])
+};
+```
+
+All done from store respective. Now you need to just connect these thing to your functional or class component
+
+```
+import { Route, Routes } from "react-router-dom";
+import { connect } from "react-redux";
+
+import { Fragment, useEffect } from "react";
+import { ApplicationState } from "./store/reducers";
+import { IRextActionDefinition, IRextResetActionDefinition, IRextState, getRextState } from "rext-redux";
+import { test1 } from "./rext";
+
+interface OwnProps {
+
+}
+
+interface StateProps {
+  test1RextState: IRextState;
+}
+
+interface DispatchProps {
+  test1Call: IRextActionDefinition;
+}
+
+type Props = OwnProps & StateProps & DispatchProps;
+
+function App(props: Props) {
+
+  useEffect(() => {
+    // Dispatching event to get results
+    props.test1Call({
+      method: "get",
+      url: "https://jsonplaceholder.typicode.com/todos/1",
+    })
+  }, []);
+
+  return (
+    <div>Rext Redux</div>
+  );
+}
+
+const mapStateToProps = (
+  state: ApplicationState,
+  ownProps: OwnProps
+): StateProps => {
+  return {
+    test1RextState: getRextState(state.test1State, {})   // getRextState function will be used to get data
+  };
+};
+
+const mapDispatchStateToProps: DispatchProps = {
+  test1Call: test1.request
+};
+
+export default connect<StateProps, DispatchProps, OwnProps, ApplicationState>(
+  mapStateToProps,
+  mapDispatchStateToProps
+)(App);
 ```
