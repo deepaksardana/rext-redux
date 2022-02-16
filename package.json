@@ -1,6 +1,6 @@
 {
   "name": "rext-redux",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Rext Redux",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",

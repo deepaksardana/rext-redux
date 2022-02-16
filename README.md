@@ -240,7 +240,7 @@ getRextState return following this
 ```
 {
     params: IRextParams; // Params will dispatching the events
-    fetching?: boolean; // true when request is in process, otherwise false
+    fetching?: boolean; // true when request or update request is in process, otherwise false
     isUpdated?: boolean; // true when update request is completed
     resources: any; // any value you want after request is completed
     data: any; // response
