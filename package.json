@@ -19,7 +19,11 @@
   "files": [
     "lib/**/*"
   ],
-  "author": "",
+  "author": "Deepak Sardana",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/deepaksardana/rext-redux.git"
+  },
   "license": "ISC",
   "devDependencies": {
     "@types/lodash": "^4.14.178",
