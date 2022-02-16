@@ -53,45 +53,12 @@ export function generateQueryParamsString(queryParams: { [key: string]: any }): 
 
 function handleResponse(response: Response) {
   return new Promise((resolve, reject) => {
-    if (response.status === 400) {
-      response.json().then((json) => {
-        reject(json.message || 'Bad Request');
-      });
-    }
     if (response.status === 401) {
       window.location.reload();
       response.json().then((json) => {
         reject(json.message || 'Unauthorized');
       });
-    }
-    if (response.status === 404) {
-      reject('Not Found');
-    }
-
-    if (response.status === 405) {
-      response.json().then((json) => {
-        reject(json.message || 'Not Allowed');
-      });
-    }
-
-    if (response.status === 422) {
-      response.json().then((json) => {
-        reject(json.message || 'Payload Mismatch');
-      });
-    }
-
-    if (response.status === 500) {
-      const contentType = response.headers.get('content-type');
-      if (contentType && contentType.indexOf('application/json') !== -1) {
-        response.json().then((json) => {
-          reject(json.message);
-        });
-      } else {
-        reject('Internal Server Error');
-      }
-    }
-
-    if (response.status >= 200 && response.status < 300) {
+    } else if (response.status >= 200 && response.status < 300) {
       const contentType = response.headers.get('content-type');
       if (contentType && contentType.indexOf('application/json') !== -1) {
         try {
@@ -104,6 +71,10 @@ function handleResponse(response: Response) {
       } else {
         resolve(response);
       }
+    } else {
+      response.json().then((json) => {
+        reject(json.message || json.error || 'Internal Server Error');
+      });
     }
   });
 }

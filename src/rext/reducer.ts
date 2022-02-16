@@ -10,7 +10,7 @@ export const infoReducer =
         return {
           ...info,
           params: payload.params,
-          fetching: type === identity.REXT_FETCH.REQUEST ? true : info.fetching,
+          fetching: true,
           isUpdated: type === identity.REXT_UPDATE.REQUEST ? false : info.isUpdated,
           hasError: false,
           message: undefined,
@@ -20,7 +20,7 @@ export const infoReducer =
         return {
           ...info,
           params: payload.params,
-          fetching: type === identity.REXT_FETCH.SUCCESS ? false : info.fetching,
+          fetching: false,
           isUpdated: type === identity.REXT_UPDATE.SUCCESS ? true : info.isUpdated,
           hasError: false,
           message: payload.message,
@@ -30,7 +30,7 @@ export const infoReducer =
         return {
           ...info,
           params: payload.params,
-          fetching: type === identity.REXT_FETCH.FAILURE ? false : info.fetching,
+          fetching: false,
           isUpdated: type === identity.REXT_UPDATE.FAILURE ? true : info.isUpdated,
           hasError: true,
           message: payload.message,

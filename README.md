@@ -72,7 +72,6 @@ export default function* root(): SagaIterator {
 All done from store respective. Now you need to just connect these thing to your functional or class component
 
 ```
-import { Route, Routes } from "react-router-dom";
 import { connect } from "react-redux";
 
 import { Fragment, useEffect } from "react";
@@ -127,3 +126,127 @@ export default connect<StateProps, DispatchProps, OwnProps, ApplicationState>(
   mapDispatchStateToProps
 )(App);
 ```
+
+Let check how we can update the requested data
+
+```
+import { connect } from "react-redux";
+
+import { Fragment, useEffect } from "react";
+import { ApplicationState } from "./store/reducers";
+import { IRextActionDefinition, IRextResetActionDefinition, IRextState, getRextState } from "rext-redux";
+import { test1, test2 } from "./rext";
+
+interface OwnProps {
+
+}
+
+interface StateProps {
+  test1RextState: IRextState;
+}
+
+interface DispatchProps {
+  test1Call: IRextActionDefinition;
+  test2Call: IRextActionDefinition;
+  test1UpdateCall: IRextActionDefinition;
+  test1ResetUpdate: IRextResetActionDefinition;
+}
+
+type Props = OwnProps & StateProps & DispatchProps;
+
+function App(props: Props) {
+  const {  isUpdated } = props.test1RextState;
+
+  useEffect(() => {
+    props.test1Call({
+      method: "get",
+      url: "https://jsonplaceholder.typicode.com/todos/1",
+    })
+    props.test1UpdateCall({
+      method: "post",
+      url: "https://api.instantwebtools.net/v1/passenger",
+      body: {
+        "name": "John Doe",
+        "trips": 250,
+        "airline": 5
+    }
+    })
+  }, []);
+
+  useEffect(() => {
+    if(isUpdated) {
+      console.log("updatedddd");
+      props.test1ResetUpdate();
+    }
+  }, [isUpdated]);
+
+  return (
+    <div>Rext Redux</div>
+  );
+}
+
+const mapStateToProps = (
+  state: ApplicationState,
+  ownProps: OwnProps
+): StateProps => {
+  console.log(state);
+  return {
+    test1RextState: getRextState(state.test1State, {})
+  };
+};
+
+const mapDispatchStateToProps: DispatchProps = {
+  test1Call: test1.request,
+  test2Call: test2.request,
+  test1UpdateCall: test1.update,
+  test1ResetUpdate: test1.resetUpdate
+};
+
+export default connect<StateProps, DispatchProps, OwnProps, ApplicationState>(
+  mapStateToProps,
+  mapDispatchStateToProps
+)(App);
+
+```
+
+
+If you want to send url and query parma you can do like this
+
+```
+props.test1Call({
+    method: "get",
+    url: "https://jsonplaceholder.typicode.com/todos/1",
+    queryParams: {
+    test: "123",
+    test1: "abcd"
+    }
+})
+```
+
+If you want to add url params you can do like this
+```
+props.test1Call({
+    method: "get",
+    url: "https://jsonplaceholder.typicode.com/todos/:todosID",
+    urlParams: {
+    todosID: "1"
+    }
+})
+```
+
+
+getRextState return following this
+
+```
+{
+    params: IRextParams; // Params will dispatching the events
+    fetching?: boolean; // true when request is in process, otherwise false
+    isUpdated?: boolean; // true when update request is completed
+    resources: any; // any value you want after request is completed
+    data: any; // response
+    error: boolean; // true if request or update api call returns error
+    message: string; // error or success message.
+}
+```
+
+
