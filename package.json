@@ -1,6 +1,6 @@
 {
   "name": "rext-redux",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Rext Redux",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -30,7 +30,7 @@
     "type": "git",
     "url": "https://github.com/deepaksardana/rext-redux.git"
   },
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@types/lodash": "^4.14.178",
     "prettier": "^2.5.1",
