@@ -1,11 +1,11 @@
 {
   "name": "rext-redux",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Rext Redux",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "build": "tsc -t ES6",
+    "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
     "format": "prettier --write \"src/**/*.ts\"",
     "lint": "tslint -p tsconfig.json",
