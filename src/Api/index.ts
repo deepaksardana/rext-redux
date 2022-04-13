@@ -1,4 +1,3 @@
-import { forEach, replace, keys, constant } from 'lodash';
 // TODO need to change method name as method support both Post and Put request
 export function fetchRequest(
   url: string,
@@ -33,16 +32,16 @@ export function checkAndAppendHeaders(headers: Headers, token: string, body?: an
 }
 
 export function generateUrlWithRequestParams(url: string, requestParams: { [key: string]: any }): string {
-  forEach(keys(requestParams), (key: string) => {
-    url = replace(url, `:${key}`, encodeURIComponent(requestParams[key]));
+  requestParams.keys().forEach((key: string) => {
+    url = url.replace(`:${key}`, encodeURIComponent(requestParams[key]));
   });
   return url;
 }
 
 export function generateQueryParamsString(queryParams: { [key: string]: any }): string {
   let query = '';
-  const queryParamsKeys = keys(queryParams);
-  forEach(keys(queryParams), (key: string, index: number) => {
+  const queryParamsKeys = queryParams.keys();
+  queryParams.keys().forEach((key: string, index: number) => {
     query += `${key}=${encodeURIComponent(queryParams[key])}`;
     if (index < queryParamsKeys.length - 1) {
       query += `&`;
